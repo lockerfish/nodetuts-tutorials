@@ -1,0 +1,15 @@
+{
+  "name": "ep31-Konphyg_Library",
+  "version": "0.1.0",
+  "description": "Episode 31 Node Tuts Konphyg",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Hendrix Tavarez",
+  "license": "BSD",
+  "dependencies": {
+    "konphyg": "~1.0.5"
+  }
+}

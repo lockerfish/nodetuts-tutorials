@@ -1,0 +1,17 @@
+{
+  "name": "myapp",
+  "version": "0.0.1",
+  "description": "This app is awesome",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.test.js -R spec"
+  },
+  "repository": "",
+  "author": "Hendrix Tavarez",
+  "license": "MIT",
+	"scripts" : { "start" : "node server.js" },
+	"dependencies": {
+		"alfred": "~0.3.0",
+		"carrier": "~0.1.0"
+	}
+}

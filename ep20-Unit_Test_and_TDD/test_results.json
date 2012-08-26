@@ -1,0 +1,67 @@
+{
+  "stats": {
+    "suites": 6,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2012-08-14T19:33:23.095Z",
+    "end": "2012-08-14T19:33:23.100Z",
+    "duration": 5
+  },
+  "tests": [
+    {
+      "title": "should have 0 balance",
+      "fullTitle": "Account #balance should have 0 balance",
+      "duration": 0
+    },
+    {
+      "title": "should increase the balance after credit",
+      "fullTitle": "Account #credit() should increase the balance after credit",
+      "duration": 0
+    },
+    {
+      "title": "should decrease the balance after debit",
+      "fullTitle": "Account #debit() should decrease the balance after debit",
+      "duration": 0
+    },
+    {
+      "title": "should credit one account and debit the other on transfer",
+      "fullTitle": "Account #transferTo() should credit one account and debit the other on transfer",
+      "duration": 0
+    },
+    {
+      "title": "should throw error if not enough funds",
+      "fullTitle": "Account #transferTo() should throw error if not enough funds",
+      "duration": 0
+    }
+  ],
+  "failures": [],
+  "passes": [
+    {
+      "title": "should have 0 balance",
+      "fullTitle": "Account #balance should have 0 balance",
+      "duration": 0
+    },
+    {
+      "title": "should increase the balance after credit",
+      "fullTitle": "Account #credit() should increase the balance after credit",
+      "duration": 0
+    },
+    {
+      "title": "should decrease the balance after debit",
+      "fullTitle": "Account #debit() should decrease the balance after debit",
+      "duration": 0
+    },
+    {
+      "title": "should credit one account and debit the other on transfer",
+      "fullTitle": "Account #transferTo() should credit one account and debit the other on transfer",
+      "duration": 0
+    },
+    {
+      "title": "should throw error if not enough funds",
+      "fullTitle": "Account #transferTo() should throw error if not enough funds",
+      "duration": 0
+    }
+  ]
+}

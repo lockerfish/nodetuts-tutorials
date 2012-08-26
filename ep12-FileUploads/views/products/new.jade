@@ -1,0 +1,7 @@
+extends ../layout
+
+block content
+	#product
+	h1 New Product
+	form(action='/products', method='POST')
+		include includes/product_form

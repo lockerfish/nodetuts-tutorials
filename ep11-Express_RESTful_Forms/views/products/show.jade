@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+	#product
+		h2= product.name
+		p= product.description
+		p Price: #{product.price}
+		p
+			a(href='/products') Back
+		p
+			a(href='/products/#{product.id}/edit') Edit

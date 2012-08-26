@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+	#photo
+	h1 New Photo
+	form(action='/photos', method='POST', enctype='multipart/form-data')
+		include includes/photo_form 
+		p
+			input(type='submit')

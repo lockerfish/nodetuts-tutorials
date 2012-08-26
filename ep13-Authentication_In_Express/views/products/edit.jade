@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+	#product
+	h1 Editing #{product.name}
+	form(action='/products/#{product.id}', method='POST')
+		input(type='hidden', name='_method', value='PUT')
+		include includes/product_form

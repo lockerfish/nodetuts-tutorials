@@ -1,0 +1,24 @@
+Deploying to Nodejitsu
+
+
+1) install jitsu package
+	$ npm install jitsu -g
+
+2) create a new app
+	$ jitsu install
+
+3) deploy app to nodejitsu
+	$ jitsu deploy
+
+4) visit example app at http://htavarez.jit.su 
+
+5) list deployed apps at nodejitsu
+	$ jitsu apps list
+
+6) stop an app
+	$ jitsu apps stop nodeapps-express
+
+7) remove app
+	$ jitsu apps destroy  nodeapps-express
+
+

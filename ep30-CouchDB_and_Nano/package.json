@@ -1,0 +1,15 @@
+{
+  "name": "NodeTuts_ep_30",
+  "version": "0.1.0",
+  "description": "Episode 30 of Node Tuts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Hendrix Tavarez",
+  "license": "BSD",
+  "dependencies": {
+    "nano": "~3.3.0"
+  }
+}

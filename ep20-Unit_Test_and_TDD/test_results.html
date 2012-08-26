@@ -1,0 +1,56 @@
+    <section class="suite">
+      <h1>Account</h1>
+      <dl>
+        <section class="suite">
+          <h1>#balance</h1>
+          <dl>
+            <dt>should have 0 balance</dt>
+            <dd><pre><code>var account = Account.create();
+			account.should.have.property('balance');
+			account.balance.should.eql(0);</code></pre></dd>
+          </dl>
+        </section>
+        <section class="suite">
+          <h1>#credit()</h1>
+          <dl>
+            <dt>should increase the balance after credit</dt>
+            <dd><pre><code>var account = Account.create();
+			account.credit(10);
+			account.balance.should.eql(10);</code></pre></dd>
+          </dl>
+        </section>
+        <section class="suite">
+          <h1>#debit()</h1>
+          <dl>
+            <dt>should decrease the balance after debit</dt>
+            <dd><pre><code>var account = Account.create();
+			account.debit(10);
+			account.balance.should.eql(-10);</code></pre></dd>
+          </dl>
+        </section>
+        <section class="suite">
+          <h1>#transferTo()</h1>
+          <dl>
+            <dt>should credit one account and debit the other on transfer</dt>
+            <dd><pre><code>var accountA = Account.create();
+			accountA.credit(20);
+			var accountB = Account.create();
+			accountA.transferTo(accountB, 5);
+			accountA.balance.should.eql(15);
+			accountB.balance.should.eql(5);</code></pre></dd>
+          </dl>
+        </section>
+        <section class="suite">
+          <h1>#transferTo()</h1>
+          <dl>
+            <dt>should throw error if not enough funds</dt>
+            <dd><pre><code>var accountA = Account.create();
+			accountA.credit(5);
+			var accountB = Account.create();
+			assert.throws(function() {
+				accountA.transferTo(accountB, 10);
+			});</code></pre></dd>
+          </dl>
+        </section>
+      </dl>
+    </section>

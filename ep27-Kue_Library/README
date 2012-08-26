@@ -1,0 +1,10 @@
+Instructions: 
+
+1) start redis server:
+	$ redis-server
+  (optional)
+	$ redis-server ./redis.conf
+2) start producer: 
+	$ node producer.js
+3) start consumer(s):
+	$ node consumer.js

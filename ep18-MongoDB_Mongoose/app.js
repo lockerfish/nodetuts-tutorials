@@ -1,0 +1,191 @@
+var express = require('express');
+var fs = require('fs')
+var util = require('util');
+//var MemStore = require('express/node_modules/connect/lib/middleware/session/memory');
+var MemStore = express.session.MemoryStore;
+var app = express();
+var mongoose = require('mongoose');
+
+var db = mongoose.createConnection('localhost','db');
+
+
+app.configure(function() {
+	app.use(express.logger());
+	app.use(express.static(__dirname + '/static'));
+	app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/static/uploads/photos/' }));
+	app.use(express.methodOverride());
+	app.use(express.cookieParser());
+	app.use(express.session({
+		secret: 'bad ass mother fucker',
+		store: MemStore({reapInterval: 60000 * 10})
+	}));
+	app.use(function(req, res, next) {
+		res.locals.session = req.session;
+		res.locals.flash = {};
+		next();
+	});
+});
+
+app.configure('development', function() {
+	app.use(express.errorHandler({
+		dumpExceptions: true,
+		showStack: true
+	}));
+});
+
+app.configure('production', function() {
+	app.use(express.errorHandler());
+});
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+
+
+function requiresLogin(req, res, next) {
+
+	if(req.session.user) {
+		next();
+	} else {
+		res.redirect('/sessions/new?redir=' + req.url);
+	}
+}
+
+app.get('/', function(req, res) {
+	res.render('root');
+});
+
+/* Sessions */
+require('./users');
+var User = db.model('User');
+
+app.get('/sessions/new', function(req, res) {
+	res.render('sessions/new', {redir: req.query.redir});
+});
+
+app.post('/sessions', function(req, res) {
+	User.authenticate(req.body.login, req.body.password).findOne(function(err, user) {
+		if(user) {
+			req.session.user = user;
+			res.redirect(req.body.redir || '/');
+		} else {
+			res.locals.flash = { warn: 'login failed'};
+			//req.flash('warn', 'Login failed!');
+			res.render('sessions/new', {redir: req.body.redir});
+		}
+	});
+});
+
+app.get('/sessions/destroy', function(req, res) {
+	delete req.session.user;
+	res.redirect('/sessions/new');
+});
+
+require('./products');
+var Product = db.model('Product');
+var photos = require('./photos');
+
+app.get('/products', requiresLogin, function(req, res) {
+	Product.find({}, function(err, products) {
+		if(err) {
+			next(err);
+			return;
+		}
+		res.render('products/index', {products: products});
+	});
+});
+
+app.get('/products/new', requiresLogin, function(req, res) {
+	photos.list(function(err, photo_list) {
+		if(err) {
+			throw err;
+		}
+		res.render('products/new', {
+			product: req.body && req.body.product || new Product(),
+			photos: photo_list
+		});
+	});
+});
+
+app.post('/products', requiresLogin, function(req, res) {
+	var product = new Product(req.body.product);
+	product.save(function() {
+		res.redirect('/products/' + product._id.toHexString());
+	});
+});
+
+app.get('/products/:id', function(req, res) {
+	Product.findById(req.params.id, function(err, product) {
+		if(err) {
+			next(err);
+			return;
+		}
+		res.render('products/show', {product: product});
+	});
+});
+
+app.get('/products/:id/edit', requiresLogin, function(req, res) {
+	Product.findById(req.params.id, function(err, product) {
+		if(err) {
+			next(err);
+			return;
+		}
+		photos.list(function(err, photo_list) {
+			if(err) {
+				next(err);
+				return;
+			}
+			res.render('products/edit', {
+				product: product,
+				photos: photo_list
+			});
+		});
+	});
+});
+
+app.put('/products/:id', requiresLogin, function(req, res) {
+	Product.findById(req.params.id, function(err, product) {
+		if(err) {
+			next(err);
+			return;
+		}
+		product.name = req.body.product.name;
+		product.description = req.body.product.description;
+		product.price = req.body.product.price;
+		product.photo = req.body.product.photo;
+		product.save(function() {
+			res.redirect('/products/' + product._id.toHexString());
+		});
+	});
+});
+
+/* Photos */
+
+app.get('/photos', function(req, res) {
+	photos.list(function(err, photo_list) {
+		if(err) {
+			throw err;
+		}
+		res.render('photos/index', {photos: photo_list});
+	});
+});
+
+app.get('/photos/new', function(req, res) {
+	res.render('photos/new');
+});
+
+app.post('/photos', function(req, res) {
+
+	var photo = req.files.photo;
+
+	if(photo.size === 0) {
+		console.log('empty file uploaded');
+		fs.unlinkSync(photo.path);
+		res.send('empty file uploaded');
+	} else {
+		var fn = photo.path.split('/');
+		fs.rename(photo.path, photo.path.replace(fn[fn.length-1], photo.name));
+		res.redirect('/photos');
+	}
+});
+
+app.listen(4000);
