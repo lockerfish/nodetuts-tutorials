@@ -9,7 +9,7 @@
     "start": "./app.js"
   },
   "dependencies": {
-    "express": "2.5.9",
+    "express": "~>3.11.0",
     "jade": ">= 0.0.1"
   },
   "analyze": false,
